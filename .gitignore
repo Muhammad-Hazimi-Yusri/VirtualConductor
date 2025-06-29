@@ -139,3 +139,5 @@ dmypy.json
 /runs/
 /test_unseen.py
 testing sample.png
+
+dataset/
