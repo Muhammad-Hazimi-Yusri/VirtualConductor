@@ -36,7 +36,7 @@ class TestDataset(Data.Dataset):
         return feature, name
 
 
-def test(G, test_samles_dir='test\\test_samples\\', save_path='test/result'):
+def test(G, test_samles_dir='test/test_samples/', save_path='test/result'):
     G.eval()
     dataset = TestDataset(test_samles_dir=test_samles_dir)
     testloader = Data.DataLoader(dataset=dataset, batch_size=1)
