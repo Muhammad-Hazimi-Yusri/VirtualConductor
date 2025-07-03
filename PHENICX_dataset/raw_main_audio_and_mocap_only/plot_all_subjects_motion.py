@@ -101,13 +101,13 @@ frame_slider = Slider(slider_ax, 'Frame', 0, num_frames-1, valinit=0, valstep=1)
 
 # Checkbox for persistent mode
 checkbox_ax = fig.add_axes([0.01, 0.7, 0.15, 0.1])
-checkbox = CheckButtons(checkbox_ax, ['Persistent'], [True])
+checkbox = CheckButtons(checkbox_ax, ['Persistent'], [False])
 
 # Play button
 button_ax = fig.add_axes([0.85, 0.02, 0.1, 0.04])
 play_button = Button(button_ax, 'Play')
 
-persistent = [True]
+persistent = [False]
 playing = [False]
 current_frame = [0]
 ani = [None]
