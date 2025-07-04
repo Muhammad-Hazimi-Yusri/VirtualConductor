@@ -32,7 +32,92 @@ The above figure gives a high-level illustration of the proposed two-stage appro
 - **May 2022.** Our paper is published at _Journal of Computer Science and Technology (JCST)_. Check our [paper](https://link.springer.com/article/10.1007/s11390-022-2030-z)!
 - **Nov 2022.** Code for JCST paper is released.
 
-# Getting Started
+# My (mhby1g21) Contributions & PHENICX Dataset Usage Guide
+
+This section documents additional tools and scripts for working with the PHENICX-conduct dataset (researching its capabilities to work with original VirtualConductor framework), as well as how to set up the environment and run training/testing (VirtualConductor) on both HPC and WSL. If you are taking over this project, please read carefully!
+
+## Environment Setup
+
+**Clone the repository and enter the directory:**
+```bash
+git clone https://github.com/ChenDelong1999/VirtualConductor.git
+cd VirtualConductor
+```
+
+**Create and activate a conda environment (for WSL or HPC):**
+```bash
+# For WSL
+conda env create -f environment_wsl.yml
+conda activate VirtualConductor_wsl
+
+# For HPC
+conda env create -f environment_hpc.yml
+conda activate VirtualConductor_latest
+```
+
+**Install extra Python dependencies (for PHENICX datasets, can be in separate venv):**
+```bash
+pip install librosa matplotlib scipy tqdm moviepy opencv-python tensorboard playwright
+playwright install
+```
+
+## PHENICX Dataset Scripts
+
+- **Automated Download of Repovizz Fragments:**
+  - Script: `PHENICX_dataset/download_all_missing_dataset.py`
+  - Automates downloading all missing PHENICX-conduct fragments from Repovizz using Playwright.
+  - If you encounter a Cloudflare/CAPTCHA page, the script will open a browser window and prompt you to solve it manually.
+  - **Usage:**
+    ```bash
+    python PHENICX_dataset/download_all_missing_dataset.py
+    ```
+  - Downloaded zips will be saved in `PHENICX_dataset/raw_example/`.
+
+- **Plotting All Subjects' Motions:**
+  - Script: `PHENICX_dataset/raw_main_audio_and_mocap_only/plot_all_subjects_motion.py`
+  - Visualizes all available subject/fragment folders in 3D.
+  - **Usage:**
+    ```bash
+    python PHENICX_dataset/raw_main_audio_and_mocap_only/plot_all_subjects_motion.py
+    ```
+
+- **Manual Test Plot for a Single Subject/Fragment:**
+  - Script: `PHENICX_dataset/raw_main_audio_and_mocap_only/subject01_frag01_take03/testplot_manual.py`
+  - Visualizes motion for a single subject/fragment.
+  - **Usage:**
+    ```bash
+    python PHENICX_dataset/raw_main_audio_and_mocap_only/subject01_frag01_take03/testplot_manual.py
+    ```
+
+## Training and Testing on HPC/WSL
+
+- **Environment Setup:**
+  - Use the appropriate `environment_hpc.yml` or `environment_wsl.yml` as above.
+  - For GPU jobs, ensure your environment includes the correct CUDA toolkit.
+
+- **Running on HPC (SLURM):**
+  - Use the provided SLURM scripts (`submit_test_train.sh`, `submit_test_train_gan.sh`) as templates.
+  - Example SLURM job submission:
+    ```bash
+    sbatch submit_test_train.sh
+    ```
+  - These scripts activate the conda environment, set CUDA variables, and run your training or test scripts.
+  - For more details on job submission, conda environments, and SLURM usage, see the [HPC Community Wiki](https://sotonac.sharepoint.com/teams/HPCCommunityWiki).
+
+- **Running on WSL:**
+  - Activate your environment:
+    ```bash
+    conda activate VirtualConductor_wsl
+    ```
+  - Run training or test scripts as usual:
+    ```bash
+    python M2SNet_train.py --dataset_dir <Your Dataset Dir>
+    python test_unseen.py --model 'checkpoints/M2SGAN/M2SGAN_official_pretrained.pt'
+    ```
+
+---
+
+# Original Getting Started
 
 ## Install
 
@@ -195,7 +280,7 @@ Copyright (c) 2022 Delong Chen. Contact me for commercial use (or rather any use
                   Fan Liu and
                   Zewen Li and
                   Feng Xu},
-     title     = {VirtualConductor: Music-driven Conducting Video Generation System},
+     title     = {VirtualConductor: Music-driven Conducting Video Generation},
      journal   = {CoRR},
      volume    = {abs/2108.04350},
      year      = {2021},
@@ -226,4 +311,3 @@ Copyright (c) 2022 Delong Chen. Contact me for commercial use (or rather any use
     }
    ```
 
-   
